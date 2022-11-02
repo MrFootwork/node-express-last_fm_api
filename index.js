@@ -4,6 +4,9 @@ const bodyParser = require('body-parser')
 const url = require('url')
 require('dotenv').config()
 
+// FIXME add nodemon
+// https://blog.shahednasser.com/how-to-read-and-write-csv-files-using-node-js-and-express/
+
 // get node server running
 const app = express()
 app.use(bodyParser.json())
@@ -11,6 +14,9 @@ const port = process.env.PORT || 4000
 app.listen(port, () => {
 	console.log(`listening on ${port}`)
 })
+
+// FIXME create CSV file and provide download function
+// https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
 
 // artist search endpoint
 app.get('/api', async (req, res) => {
