@@ -15,13 +15,13 @@ app.listen(port, () => {
 // artist search endpoint
 app.get('/api', async (req, res) => {
 	// read request
-	const queryObject = url.parse(req.url, true).query // { myQuery: '123' }
+	const queryObject = url.parse(req.url, true).query // { artist: 'cher' }
 	// build query
 	const artistToSearchFor = queryObject.artist || ''
 	const apiKey = process.env.API_KEY || 0
-	const lastFm_Url = `http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${artistToSearchFor}&api_key=${apiKey}&format=json`
+	const lastFm_url = `http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${artistToSearchFor}&api_key=${apiKey}&format=json`
 	// process response
-	const lastFm_response = await fetch(lastFm_Url)
+	const lastFm_response = await fetch(lastFm_url)
 	const lastFm_data = await lastFm_response.json()
 	console.log(lastFm_data)
 	// FIXME lastFm_data must be processed
