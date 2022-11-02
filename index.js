@@ -4,9 +4,6 @@ const bodyParser = require('body-parser')
 const url = require('url')
 require('dotenv').config()
 
-// FIXME add nodemon
-// https://blog.shahednasser.com/how-to-read-and-write-csv-files-using-node-js-and-express/
-
 // get node server running
 const app = express()
 app.use(bodyParser.json())
@@ -29,44 +26,24 @@ app.get('/api', async (req, res) => {
 	// process response
 	const lastFm_response = await fetch(lastFm_url)
 	const lastFm_data = await lastFm_response.json()
-	console.log(lastFm_data)
-	// FIXME lastFm_data must be processed
-	// it contains all artists
+	const lastFm_artists = lastFm_data.results.artistmatches.artist
+	// shape data structure
+	const lastFm_formatted = lastFm_artists.map(artist => {
+		const imgIndexSmall = 0
+		const imgIndexNormal = 2
 
-	// build answer
-	const data = {
-		name: 'test',
-		mbid: 'test',
-		url: 'test',
-		image_small: 'test',
-		image: 'test',
-	}
-	res.json(lastFm_data)
+		let oArtist = {
+			name: artist.name,
+			mbid: artist.mbid,
+			url: artist.url,
+			image_small: artist.image[imgIndexSmall]['#text'],
+			image: artist.image[imgIndexNormal]['#text'],
+		}
+
+		return oArtist
+	})
+
+	// build response
+	const data = lastFm_formatted
+	res.json(data)
 })
-// app.post('/api', (request, response) => {
-// 	console.log(request)
-// 	const data = request.body
-// 	const timestamp = Date.now()
-// 	data.timestamp = timestamp
-// 	response.json(data)
-// 	console.log(response)
-// })
-
-// app.post('/api', (req, res) => {
-// 	const queryObject = url.parse(req.url, true).query
-// })
-
-// eriks query
-// // hello?search=123
-//   // {search: 123}
-//   const queryObject = url.parse(req.url as string, true).query;
-//   let data = { data: [{ data: "" }] };
-
-//   const { search } = queryObject;
-//   if (search) {
-//     data = await $fetch(`https://api.tvmaze.com/search/shows?q=${search}`);
-//   }
-//   // lazy writeHead: usually you would need to catch a 404
-//   res.writeHead(200, { "Content-Type": "application/json" });
-//   res.write(JSON.stringify(data));
-//   res.end();
