@@ -1,17 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+  <LayoutContainer>
+    <SearchInput label="Search for Artist" />
+    <SearchButton />
+    <DownloadButton />
+  </LayoutContainer>
+
+  <LayoutContainer>
+    <SearchResult />
+  </LayoutContainer>
+
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue';
+<script setup>
+import LayoutContainer from './components/LayoutContainer.vue';
+import SearchInput from './components/SearchInput.vue';
+import SearchButton from './components/SearchButton.vue';
+import DownloadButton from './components/DownloadButton.vue';
+import SearchResult from './components/SearchResult.vue';
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld,
-  },
-};
 </script>
 
 <style lang="scss">
