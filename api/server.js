@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const fetch = require('node-fetch')
 const bodyParser = require('body-parser')
 const url = require('url')
@@ -6,20 +7,21 @@ require('dotenv').config()
 
 // get node server running
 const app = express()
+const port = 4000
 app.use(bodyParser.json())
-const port = process.env.PORT || 4000
+// show express the path to the distribution folder of the vue app -> serve vue app on root
+// https://medium.com/bb-tutorials-and-thoughts/how-to-develop-and-build-vue-js-app-with-nodejs-bd86feec1a20
+app.use(express.static(path.join(__dirname, '../client/dist')))
+
 app.listen(port, () => {
 	console.log(`listening on ${port}`)
 })
-
-// FIXME serve vue app from server
-// https://medium.com/bb-tutorials-and-thoughts/how-to-develop-and-build-vue-js-app-with-nodejs-bd86feec1a20
 
 // FIXME create CSV file and provide download function
 // https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
 
 // artist search endpoint
-app.get('/api', async (req, res) => {
+app.get('/search', async (req, res) => {
 	// read request
 	const queryObject = url.parse(req.url, true).query // { artist: 'cher' }
 
