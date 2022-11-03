@@ -1,9 +1,7 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <LayoutContainer>
-    <SearchInput label="Search for Artist" />
-    <SearchButton />
-    <DownloadButton />
+    <SearchArtistForm />
   </LayoutContainer>
 
   <LayoutContainer>
@@ -14,9 +12,7 @@
 
 <script setup>
 import LayoutContainer from './components/LayoutContainer.vue';
-import SearchInput from './components/SearchInput.vue';
-import SearchButton from './components/SearchButton.vue';
-import DownloadButton from './components/DownloadButton.vue';
+import SearchArtistForm from './components/SearchArtistForm.vue';
 import SearchResult from './components/SearchResult.vue';
 
 </script>
