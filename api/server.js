@@ -25,6 +25,7 @@ app
 var artists = []
 
 // artist search endpoint
+// /search?artist=${searchText}
 app.get('/search', async (req, res) => {
 	// read request
 	const queryObject = url.parse(req.url, true).query // { artist: 'cher' }

@@ -9,4 +9,9 @@ module.exports = defineConfig({
       },
     },
   },
+  // TODO try to change meta for page title
+  // https://stackoverflow.com/questions/72095078/in-vue3-vue-meta-showing-name-meta-for-each-meta-tags-so-not-able-to-add-twit
+  pwa: {
+    name: "Artist Search to CSV",
+  },
 });
