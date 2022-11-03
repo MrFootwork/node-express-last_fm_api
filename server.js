@@ -12,6 +12,9 @@ app.listen(port, () => {
 	console.log(`listening on ${port}`)
 })
 
+// FIXME serve vue app from server
+// https://medium.com/bb-tutorials-and-thoughts/how-to-develop-and-build-vue-js-app-with-nodejs-bd86feec1a20
+
 // FIXME create CSV file and provide download function
 // https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
 
@@ -31,16 +34,17 @@ app.get('/api', async (req, res) => {
 	const lastFm_formatted = lastFm_artists.map(artist => {
 		const imgIndexSmall = 0
 		const imgIndexNormal = 2
+		const keyImageUrl = '#text'
 
-		let oArtist = {
+		let csvArtist = {
 			name: artist.name,
 			mbid: artist.mbid,
 			url: artist.url,
-			image_small: artist.image[imgIndexSmall]['#text'],
-			image: artist.image[imgIndexNormal]['#text'],
+			image_small: artist.image[imgIndexSmall][keyImageUrl],
+			image: artist.image[imgIndexNormal][keyImageUrl],
 		}
 
-		return oArtist
+		return csvArtist
 	})
 
 	// build response
