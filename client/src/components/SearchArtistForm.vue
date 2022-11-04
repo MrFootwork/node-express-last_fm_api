@@ -44,16 +44,34 @@ const filename = ref('');
 // FIXME try axios
 async function saveCSV() {
   alert(`Downloading CSV with name ${filename.value}...`);
-  await fetch(`/save?filename=${filename.value}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ filename: filename.value }),
-  });
+  // await fetch(`/save?filename=${filename.value}`, {
+  //   method: 'POST',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({ filename: filename.value }),
+  // });
   // .then((response) => response.json())
   // .then((response) => console.log(JSON.stringify(response)));
+
+  const headersList = {
+    Accept: 'application/json',
+    'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+  };
+  // TODO root url should be localhost:4000
+  // const response = await fetch(`/save?filename=${filename.value}`, {
+  //   method: 'POST',
+  //   headers: headersList,
+  // });
+
+  const response = await fetch(`http://localhost:4000/save?filename=${filename.value}`, {
+    method: 'POST',
+    headers: headersList,
+  });
+
+  const data = await response.text();
+  console.log(data);
 }
 </script>
 
