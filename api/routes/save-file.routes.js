@@ -1,14 +1,20 @@
 const url = require('url')
+const ArtistList = require('../models/artist-list.model')
 
 // FIXME create CSV file and provide download function
 // https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
 
+// needed for csv file saving
+const fs = require('fs')
+const stringify = require('csv-stringify').stringify
+
 // save as csv
 // /save?filename=${input}
-const saveFile = async function (req, res) {
+module.exports = async (req, res) => {
 	// read request
 	const queryObject = url.parse(req.url, true).query // { filename: 'my file' }
 	console.log(queryObject)
+	console.log(ArtistList.length)
 	res.status(200).json({ text: 'this text was sent back' })
 
 	// console.log(req.body.data)
@@ -20,5 +26,3 @@ const saveFile = async function (req, res) {
 	// // save csv
 	// res.sendStatus(200)
 }
-
-module.exports = saveFile
