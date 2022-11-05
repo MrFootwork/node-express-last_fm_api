@@ -2,6 +2,9 @@ const express = require('express')
 const path = require('path')
 const fetch = require('node-fetch')
 
+// routes
+const saveFile = require('./routes/save.routes')
+
 // FIXME Refactoring needed!
 // 1. extract functions and modules
 // 2. restructure folders
@@ -34,17 +37,11 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '../client/dist')))
 
 // choose a random artist from JSON dictionary source
-const defaultArtists = require('./assets/default-artists')
+const { getRandomArtist } = require('./assets/default-artists')
 
 // last artists during runtime
 var artists = []
-function getArtistURI(artist, apiKey) {
-	return `http://ws.audioscrobbler.com/2.0/
-	?method=artist.search
-	&artist=${artist}
-	&api_key=${apiKey}
-	&format=json`
-}
+const utils = require('./utils/utils')
 
 // artist search endpoint
 // /search?artist=${searchText}
@@ -60,16 +57,16 @@ app.get('/search', async (req, res) => {
 	let lastFm_data = {}
 
 	try {
-		lastFm_uri = getArtistURI(artistToSearchFor, apiKey)
+		lastFm_uri = utils.getArtistURI(artistToSearchFor, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
 
-		console.log(lastFm_response.status, queryObject)
-		console.log(
-			lastFm_response.status !== 200,
-			Object.keys(lastFm_data).length === 0,
-			Object.keys(queryObject).length === 0
-		)
+		// console.log(lastFm_response.status, queryObject)
+		// console.log(
+		// 	lastFm_response.status !== 200,
+		// 	Object.keys(lastFm_data).length === 0,
+		// 	Object.keys(queryObject).length === 0
+		// )
 
 		if (
 			lastFm_response.status !== 200 ||
@@ -79,14 +76,14 @@ app.get('/search', async (req, res) => {
 			throw new error("last fm api didn't work -> picking random artist")
 		}
 	} catch (error) {
-		console.log(error, error.message)
+		// console.log(error, error.message)
 
 		// FIXME catch lastFm_data.error = 10 (invalid api_key)
 
-		const randomArtist = defaultArtists.random()
-		console.log('new search: ', randomArtist)
+		const randomArtist = getRandomArtist()
+		// console.log('new search: ', randomArtist)
 
-		lastFm_uri = getArtistURI(randomArtist, apiKey)
+		lastFm_uri = utils.getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
 	}
@@ -116,26 +113,7 @@ app.get('/search', async (req, res) => {
 	res.json(data)
 })
 
-// FIXME create CSV file and provide download function
-// https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
-
-// save as csv
-// /save?filename=${input}
-app.post('/save', async (req, res) => {
-	// read request
-	const queryObject = url.parse(req.url, true).query // { filename: 'my file' }
-	console.log(queryObject)
-	res.status(200).json({ text: 'this text was sent back' })
-
-	// console.log(req.body.data)
-	// // read request
-	// const queryObject = url.parse(req.url, true).query // { filename: 'my artists list' }
-	// console.log(queryObject)
-	// // use artists || make new api call
-	// // convert to csv
-	// // save csv
-	// res.sendStatus(200)
-})
+app.post('/save', saveFile)
 
 app.listen(port, () => {
 	console.log(`listening on http://localhost:${port}`)

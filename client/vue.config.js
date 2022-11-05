@@ -9,6 +9,9 @@ const port = process.env.PORT || 4000;
 
 module.exports = defineConfig({
   devServer: {
+    // TODO why doesn't this work?
+    // workaround: package.json: "vue-cli-service serve --port 3000"
+    port: 3000,
     proxy: {
       "^/search": {
         target: `http://localhost:${port}`,
