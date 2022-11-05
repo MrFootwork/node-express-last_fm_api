@@ -6,15 +6,16 @@ const fetch = require('node-fetch')
 // 1. extract functions and modules
 // 2. restructure folders
 
+// use environment variables for api-keys
+const pathEnvironment = path.join(__dirname, '/config/.env')
+require('dotenv').config({ path: pathEnvironment })
+
 // define node express server
 const app = express()
 const port = process.env.PORT || 4000
 
 // simplify query object parsing from URIs
 const url = require('url')
-
-// use environment variables for api-keys
-require('dotenv').config()
 
 // needed for csv file saving
 const fs = require('fs')
@@ -59,18 +60,17 @@ app.get('/search', async (req, res) => {
 	let lastFm_data = {}
 
 	try {
-		// FIXME error handle failing fetch -> retrieve from JSON dictionary source file
-		// crash case: http://localhost:4000/search
-		// handle errors
 		lastFm_uri = getArtistURI(artistToSearchFor, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
-		console.log(lastFm_response.status, lastFm_data, queryObject)
+
+		console.log(lastFm_response.status, queryObject)
 		console.log(
 			lastFm_response.status !== 200,
 			Object.keys(lastFm_data).length === 0,
 			Object.keys(queryObject).length === 0
 		)
+
 		if (
 			lastFm_response.status !== 200 ||
 			Object.keys(lastFm_data).length === 0 ||
@@ -79,8 +79,9 @@ app.get('/search', async (req, res) => {
 			throw new error("last fm api didn't work -> picking random artist")
 		}
 	} catch (error) {
-		console.log('no data: ', lastFm_response)
-		console.log('-> fallback to default:  ', lastFm_data)
+		console.log(error, error.message)
+
+		// FIXME catch lastFm_data.error = 10 (invalid api_key)
 
 		const randomArtist = defaultArtists.random()
 		console.log('new search: ', randomArtist)
@@ -88,9 +89,8 @@ app.get('/search', async (req, res) => {
 		lastFm_uri = getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
-	} finally {
-		console.log('final result: ', lastFm_data)
 	}
+
 	const lastFm_artists = lastFm_data.results?.artistmatches?.artist
 
 	// shape data structure
@@ -138,5 +138,5 @@ app.post('/save', async (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log(`listening on ${port}`)
+	console.log(`listening on http://localhost:${port}`)
 })

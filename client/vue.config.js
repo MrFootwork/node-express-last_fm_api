@@ -1,10 +1,17 @@
 const { defineConfig } = require("@vue/cli-service");
 
+// TODO get reading env from node server working
+// use environment variables for api-keys
+const path = require("path");
+const pathEnvironment = path.join(__dirname, "../api/config/.env");
+require("dotenv").config({ path: pathEnvironment });
+const port = process.env.PORT || 4000;
+
 module.exports = defineConfig({
   devServer: {
     proxy: {
       "^/search": {
-        target: "http://localhost:4000",
+        target: `http://localhost:${port}`,
         changeOrigin: true,
       },
     },
