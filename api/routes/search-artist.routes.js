@@ -82,5 +82,5 @@ module.exports = async (req, res) => {
 	})
 
 	ArtistList.updateArtists(lastFm_formatted)
-	res.json(ArtistList.getList())
+	return res.status(200).json(ArtistList.getList())
 }
