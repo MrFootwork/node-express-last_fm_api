@@ -34,13 +34,6 @@ module.exports = async (req, res) => {
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
 
-		// console.log(lastFm_response.status, queryObject)
-		// console.log(
-		// 	lastFm_response.status !== 200,
-		// 	Object.keys(lastFm_data).length === 0,
-		// 	Object.keys(queryObject).length === 0
-		// )
-
 		if (
 			lastFm_response.status !== 200 ||
 			Object.keys(lastFm_data).length === 0
@@ -53,7 +46,6 @@ module.exports = async (req, res) => {
 		// FIXME catch lastFm_data.error = 10 (invalid api_key)
 
 		const randomArtist = getRandomArtist()
-		// console.log('new search: ', randomArtist)
 
 		lastFm_uri = utils.getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
@@ -61,8 +53,6 @@ module.exports = async (req, res) => {
 	}
 
 	const lastFm_artists = lastFm_data.results?.artistmatches?.artist
-
-	console.log('artists found: ', lastFm_artists.length)
 
 	// shape data structure
 	const lastFm_formatted = lastFm_artists.map(artist => {

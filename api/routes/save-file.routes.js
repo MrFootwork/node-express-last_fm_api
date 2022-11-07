@@ -4,9 +4,6 @@ const { json2csv, ensureDirectoryExistence } = require('../utils/utils')
 const fs = require('fs')
 const path = require('path')
 
-// FIXME create CSV file and provide download function
-// https://dev.to/davidokonji/generating-and-downloading-csv-files-using-express-js-1o4i
-
 // save as csv
 // /save?filename=${input}
 module.exports = async (req, res) => {
