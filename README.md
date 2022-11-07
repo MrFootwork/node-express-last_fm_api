@@ -1,5 +1,5 @@
 [API Key](https://www.last.fm/api/accounts)
-
+<!-- FIXME create installation & run instructions -->
 # Client (Vue setup)
 
 ## Project setup
