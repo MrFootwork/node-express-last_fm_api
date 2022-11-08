@@ -17,19 +17,45 @@ image)
 ### Prerequisites
 - [Node](https://nodejs.org/en/download/)
 - [git](https://git-scm.com/downloads)
-### Choose project directory
+### Choose Project Directory
 Use your terminal of choice and navigate to the directory where you want to create the project folder. Clone the project into the chosen directory:
 ```shell
 git clone https://github.com/MrFootwork/node-express-last_fm_api
 ```
 ## Node Server Installation
-After cloning the repository, you see two folders.
-### Navigate to api folder
+After successfully cloning the repository, you find two folders. Navigate to the api folder.
 ```shell
 cd api
 ```
+ Install the node modules inside `.../node-express-last_fm_api/api`.
 ```shell
+npm install
+```
+## Web Frontend Installation (optional)
+The following installation steps are not necessary to run the Node API application. But it's always nice to see the results. If you agree, follow the following installation steps.
 
+Navigate to the client folder.
+```shell
+cd -
+cd client
+```
+Install node modules inside `.../node-express-last_fm_api/client`.
+```shell
+npm install
+```
+Create the production build.
+```shell
+npm run build
+```
+## Run the Server
+
+ 💩blabla
+```shell
+npm install
+```
+💩blabla
+```shell
+npm install
 ```
 
 [API Key](https://www.last.fm/api/accounts)
