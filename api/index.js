@@ -17,8 +17,8 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json())
+// FIXME fallback route, if vue client has no dist-folder, yet
 // show express the path to the distribution folder of the vue app -> serve vue app on root
-// https://medium.com/bb-tutorials-and-thoughts/how-to-develop-and-build-vue-js-app-with-nodejs-bd86feec1a20
 app.use(express.static(path.join(__dirname, '../client/dist')))
 
 // API endpoints
