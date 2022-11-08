@@ -7,7 +7,7 @@ const pathEnvironment = path.join(__dirname, '../config/.env')
 require('dotenv').config({ path: pathEnvironment })
 
 // choose a random artist from JSON dictionary source
-const { getRandomArtist } = require('../assets/default-artists')
+const { getRandomArtist } = require('../models/default-artists.model')
 
 // load models and utils
 const Artist = require('../models/artist.model')
@@ -38,9 +38,12 @@ module.exports = async (req, res) => {
 			lastFm_response.status !== 200 ||
 			Object.keys(lastFm_data).length === 0
 		) {
+			// FIXME handle empty artist in request
 			throw new error('last fm api did not work -> picking random artist')
 		}
 	} catch (error) {
+		// if anything goes wrong, fetch an artist from
+		// source file JSON
 		console.log(error, error.message)
 
 		// FIXME catch lastFm_data.error = 10 (invalid api_key)

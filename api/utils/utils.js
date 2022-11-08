@@ -32,6 +32,6 @@ const ensureDirectoryExistence = function (filePath) {
 	ensureDirectoryExistence(dirname)
 	fs.mkdirSync(dirname)
 }
-// only assigning function to a variable and exporting the variable
+// only assigning function to a variable and export the variable
 // allows to solve the Reference error with the recursion
 exports.ensureDirectoryExistence = ensureDirectoryExistence

@@ -12,7 +12,7 @@
       <label for=" input-filename">
         <input id="input-filename" type="text" v-model="filename">
       </label>
-      <button @click="saveCSV">Generate CSV</button>
+      <button @click="saveCSV">Save on Server</button>
     </div>
   </form>
 </template>
