@@ -32,7 +32,7 @@ cd api
 npm install
 ```
 ## Web Frontend Installation (optional)
-The following installation steps are not necessary to run the Node API application. But it's always nice to see the results on an UI while testing it. If you agree, follow the following installation steps. If you only need the server up running and access the api endpoints, continue with [Set Environment Variables](#set-env).
+The following installation steps are not necessary to run the Node API application. But it's always nice to see the results on an UI while testing it. If you agree, follow the following installation steps. If you only need the server up running and access the api endpoints, continue with [Set Environment Variables](#set-environment-variables).
 
 Navigate to the client folder.
 ```shell
@@ -48,7 +48,7 @@ Create the production build.
 ```shell
 npm run build
 ```
-## Set Environment Variables {#set-env}
+## Set Environment Variables
 Navigate to the project folder and open it in any preferred code editor or IDE. You will need to provide a valid api key. Please go to `node-express-last_fm_api/api/config/` in your editor. You should find a file named `.env.example`. Rename this file to `.env`. This file holds the following two environment variables.
 ```shell
 API_KEY=YOUR_LAST-FM_API_KEY
@@ -58,7 +58,7 @@ Replace `YOUR_LAST-FM_API_KEY` with your own [key from last.FM](https://www.last
 ## Run Server
 Navigate to the server directory in `node-express-last_fm_api/api/` and start the server with
 ```shell
-npm start
+npm index.js
 ```
 If you built a production build of the client side Vue app, you can access the web app from http://localhost:4000. Without the frontend build the server will still serve to this port.
 # API endpoints

@@ -22,6 +22,8 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '../client/dist')))
 
 // API endpoints
+// TODO it should have app.get('../client/dist')
+// this app seems to do that automatically?
 app.get('/search', searchArtist)
 app.post('/save', saveFile)
 
