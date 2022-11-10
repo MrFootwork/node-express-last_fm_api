@@ -10,9 +10,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="artist in artists" :key="artist.mbid">
-          <td :key="artist.mbid + 'name'">{{ artist.name }}</td>
-          <td :key="artist.mbid + 'image_small'">
+        <tr v-for="(artist, index) in artists" :key="index + artist.mbid">
+          <td :key="index + artist.mbid + 'name'">{{ artist.name }}</td>
+          <td :key="index + artist.mbid + 'image_small'">
             <img :src="artist.image_small" :alt="artist.name">
           </td>
         </tr>

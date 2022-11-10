@@ -18,7 +18,6 @@ exports.json2csv = function (dataJSON) {
 	try {
 		const parser = new Parser(opts)
 		const csv = parser.parse(dataJSON)
-		console.log(dataJSON[0])
 		return csv
 	} catch (err) {
 		console.error(err)

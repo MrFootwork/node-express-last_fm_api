@@ -6,9 +6,12 @@ const path = require('path')
 
 // save as csv
 module.exports = async (req, res) => {
+	// empty ArtistList sends 404
+	if (!ArtistList.getList()) {
+		return res.status(404).send("You haven't searched for an artist, yet.")
+	}
 	// read request
 	const queryObject = url.parse(req.url, true).query // { filename: 'my file' }
-	// FIXME handle empty ArtistList
 	// set name and data for csv file
 	const fileName = queryObject.filename + '.csv'
 	const artistsJSON = ArtistList.getList()
@@ -24,5 +27,5 @@ module.exports = async (req, res) => {
 	// respond with csv
 	res.header('Content-Type', 'text/csv')
 	res.attachment(fileName)
-	return res.status(200).send(artistsCSV)
+	return res.status(201).send(artistsCSV)
 }

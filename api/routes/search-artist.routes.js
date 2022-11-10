@@ -15,6 +15,8 @@ const ArtistList = require('../models/artist-list.model')
 const utils = require('../utils/utils')
 
 module.exports = async (req, res) => {
+	// empty prior ArtistList
+	ArtistList.updateArtists([])
 	// read request
 	const queryObject = url.parse(req.url, true).query // { artist: 'cher' }
 	// get query params
@@ -27,7 +29,10 @@ module.exports = async (req, res) => {
 
 	try {
 		if (Object.keys(queryObject).length === 0) {
-			throw new error('Query does not hold an artist to search for.')
+			throw new Error('API call with empty response body...')
+		}
+		if (queryObject.artist === '') {
+			throw new Error("Empty search parameter.{ artist: ''}...")
 		}
 
 		lastFm_uri = utils.getArtistURI(artistToSearchFor, apiKey)
@@ -38,13 +43,11 @@ module.exports = async (req, res) => {
 			lastFm_response.status !== 200 ||
 			Object.keys(lastFm_data).length === 0
 		) {
-			// FIXME handle empty artist in request
-			throw new error('last fm api did not work -> picking random artist')
+			throw new Error('Last.FM API call failed -> random artist will be picked')
 		}
 	} catch (error) {
-		// if anything goes wrong, fetch an artist from
-		// source file JSON
-		console.log(error, error.message)
+		// if anything goes wrong, fetch an artist from source file JSON
+		console.error(error, error.message)
 
 		// FIXME catch lastFm_data.error = 10 (invalid api_key)
 
@@ -54,13 +57,13 @@ module.exports = async (req, res) => {
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
 	}
-
+	// FIXME throw error if response data is in invalid form
 	const lastFm_artists = lastFm_data.results?.artistmatches?.artist
 
 	// shape data structure
 	const lastFm_formatted = lastFm_artists.map(artist => {
 		const imgIndexSmall = 0
-		const imgIndexNormal = 2
+		const imgIndexNormal = 3
 		const keyImageUrl = '#text'
 
 		let artistFormatted = {
