@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-if="csv" @click="downloadCSV">Download Artist List as CSV</button>
+    <button v-if="csv" @click="downloadCSV">Download CSV</button>
     <p v-else>Click on Generate CSV to download the Artist List</p>
 
     <table v-if="artists">

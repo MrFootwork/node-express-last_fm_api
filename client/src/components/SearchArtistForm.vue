@@ -49,7 +49,17 @@ async function saveCSV() {
     method: 'POST',
     headers: headersList,
   });
-  csv.value = await response.text();
+
+  const csvText = await response.text();
+
+  if (response.status === 404) {
+    console.warn(csvText);
+  } else if (response.status >= 200 && response.status < 300) {
+    csv.value = csvText;
+    console.table(artists.value);
+  } else {
+    console.error(`A unhandled status code occurred: ${response.status}`);
+  }
 }
 </script>
 
