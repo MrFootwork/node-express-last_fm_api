@@ -46,16 +46,17 @@ module.exports = async (req, res) => {
 			throw new Error('Last.FM API call failed -> random artist will be picked')
 		}
 	} catch (error) {
-		// if anything goes wrong, fetch an artist from source file JSON
 		console.error(error, error.message)
-
-		// FIXME catch lastFm_data.error = 10 (invalid api_key)
-
+		// if anything goes wrong, fetch an artist from source file JSON
 		const randomArtist = getRandomArtist()
 
 		lastFm_uri = utils.getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
+
+		if (lastFm_data.error) {
+			return res.status(500).send(lastFm_data)
+		}
 	}
 	// FIXME throw error if response data is in invalid form
 	const lastFm_artists = lastFm_data.results?.artistmatches?.artist
