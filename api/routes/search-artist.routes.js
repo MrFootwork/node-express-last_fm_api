@@ -46,9 +46,10 @@ module.exports = async (req, res) => {
 			throw new Error('Last.FM API call failed -> random artist will be picked')
 		}
 	} catch (error) {
-		console.error(error, error.message)
+		console.error('Server picks random artist due to ', error.message)
 		// if anything goes wrong, fetch an artist from source file JSON
 		const randomArtist = getRandomArtist()
+		console.log('randomArtist: ', randomArtist)
 
 		lastFm_uri = utils.getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
