@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
 	if (!lastFm_artists) {
 		console.log('response object: ', lastFm_artists)
 		const errorObject = {
-			message: 'Received data format from last.fm is not as expected.',
+			message: 'Received unexpected data format from last.fm.',
 		}
 		return res.status(500).json(errorObject)
 	}
