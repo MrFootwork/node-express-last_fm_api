@@ -9,7 +9,7 @@
     </div>
 
     <div class="form-download-csv">
-      <label for=" input-filename">
+      <label for="input-filename">
         <input id="input-filename" type="text" v-model="filename">
       </label>
       <button @click="saveCSV">Create CSV File</button>
@@ -28,14 +28,19 @@ const {
 
 async function searchArtist() {
   const searchTextFormatted = artist.value.replace(/\s/g, '%20');
-  // TODO error handle failed fetch
+  if (searchTextFormatted === '') {
+    console.warn('No artist name was entered. The serve will search for a random artist.');
+  }
+
+  let response = {};
   try {
-    const data = await fetch(`/search?artist=${searchTextFormatted}`);
-    const json = await data.json();
+    response = await fetch(`/search?artist=${searchTextFormatted}`) || {};
+    const json = await response.json();
     artists.value = json;
     fields.value = Object.keys(artists.value[0]);
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.warn('Unexpected response: ', e);
+    console.warn(response);
   }
 }
 
