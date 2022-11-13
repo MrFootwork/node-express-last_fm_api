@@ -1,11 +1,11 @@
-const { defineConfig } = require("@vue/cli-service");
+const { defineConfig } = require('@vue/cli-service');
 
 // FIXME get reading env from node server working
 // use environment variables for api-keys
-const path = require("path");
+const path = require('path');
 
-const pathEnvironment = path.join(__dirname, "../api/config/.env");
-require("dotenv").config({ path: pathEnvironment });
+const pathEnvironment = path.join(__dirname, '../api/config/.env');
+require('dotenv').config({ path: pathEnvironment });
 
 const port = process.env.PORT || 4000;
 
@@ -17,7 +17,7 @@ module.exports = defineConfig({
     // workaround: package.json: "vue-cli-service serve --port 3000"
     port: 3000,
     proxy: {
-      "^/search": {
+      '^/search': {
         // FIXME after moving location of production build,
         // try new target using process.env.PORT
         // and add BASE_URL
@@ -30,6 +30,6 @@ module.exports = defineConfig({
   // TODO try to change meta for page title
   // https://stackoverflow.com/questions/72095078/in-vue3-vue-meta-showing-name-meta-for-each-meta-tags-so-not-able-to-add-twit
   pwa: {
-    name: "Artist Search to CSV",
+    name: 'Artist Search to CSV',
   },
 });

@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
 
 	try {
 		if (Object.keys(queryObject).length === 0) {
-			throw new Error('API call with empty response body...')
+			throw new Error('API call with empty request body...')
 		}
 		if (queryObject.artist === '') {
 			throw new Error("Empty search parameter.{ artist: ''}...")
@@ -46,19 +46,28 @@ module.exports = async (req, res) => {
 			throw new Error('Last.FM API call failed -> random artist will be picked')
 		}
 	} catch (error) {
+		console.error('❌ Server picks random artist due to ', error.message)
 		// if anything goes wrong, fetch an artist from source file JSON
-		console.error(error, error.message)
-
-		// FIXME catch lastFm_data.error = 10 (invalid api_key)
-
 		const randomArtist = getRandomArtist()
-
+		console.warn('🎤🎲 randomArtist: ', randomArtist)
 		lastFm_uri = utils.getArtistURI(randomArtist, apiKey)
 		lastFm_response = await fetch(lastFm_uri)
 		lastFm_data = await lastFm_response.json()
+		// invalid api key or other error with last.fm api
+		if (lastFm_data.error) {
+			return res.status(500).send(lastFm_data)
+		}
 	}
-	// FIXME throw error if response data is in invalid form
+
 	const lastFm_artists = lastFm_data.results?.artistmatches?.artist
+
+	if (!lastFm_artists) {
+		console.log('response object: ', lastFm_artists)
+		const errorObject = {
+			message: 'Received unexpected data format from last.fm.',
+		}
+		return res.status(500).json(errorObject)
+	}
 
 	// shape data structure
 	const lastFm_formatted = lastFm_artists.map(artist => {

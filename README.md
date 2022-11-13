@@ -58,7 +58,7 @@ Replace `YOUR_LAST-FM_API_KEY` with your own [key from last.FM](https://www.last
 ## Run Server
 Navigate to the server directory in `node-express-last_fm_api/api/` and start the server with
 ```shell
-npm index.js
+node index.js
 ```
 If you built a production build of the client side Vue app, you can access the web app from http://localhost:4000. Without the frontend build the server will still serve to this port.
 # API endpoints
